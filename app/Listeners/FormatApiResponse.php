@@ -20,9 +20,9 @@ class FormatApiResponse
             ]);
         } else {
             $event->response->setContent([
-                'code' => $event->content['code'],
+                'code' => $event->content['code'] ?? $event->content['status_code'],
                 'message' => $event->content['message'],
-                'errors' => $event->content['errors'],
+                'errors' => $event->content['errors'] ?? [],
                 'data' => []
             ]);
         }

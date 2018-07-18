@@ -1,7 +1,7 @@
 <?php namespace App\Logic\Authentication;
 
 
-use Tymon\JWTAuth\Providers\Auth\AuthInterface;
+use Tymon\JWTAuth\Contracts\Providers\Auth;
 
 class AppAuth
 {
@@ -11,7 +11,7 @@ class AppAuth
      */
     private $auth;
 
-    public function __construct(AuthInterface $auth)
+    public function __construct(Auth $auth)
     {
         $this->auth = $auth;
     }

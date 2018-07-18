@@ -40,6 +40,6 @@ class ApiException extends \Exception implements HttpExceptionInterface, Message
 
     public static function instance($messages, $code = null)
     {
-        return new self($messages, $code);
+        return new static($messages, $code);
     }
 }

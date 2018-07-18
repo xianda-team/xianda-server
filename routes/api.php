@@ -15,13 +15,13 @@ use Illuminate\Http\Request;
 
 $api = app('Dingo\Api\Routing\Router');
 
+
 $api->version('v1', function ($api) {
     $api->get('auth/wechat/access-token', 'App\Http\Controllers\Api\AuthController@weChatAccessToken');
 
-});
-
-$api->version('v1', ['middleware' => ['auth.check', 'api.auth']], function ($api) {
-    $api->get('users/{id}', 'App\Http\Controllers\Api\UserController@show');
+    $api->group(['middleware' => ['auth:api']], function ($api) {
+        $api->get('users/{id}', 'App\Http\Controllers\Api\UserController@show');
+    });
 });
 
 
