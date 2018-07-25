@@ -89,5 +89,5 @@ def rollback():
     run('ln -s %s/%s %s' % (remote_prev, remote_dist_dir, remote_dist_link))
     run('chown -R www-data:www-data %s' % remote_dist_link)
     print('rollback done')
-  else:
+ else:
     print('回滚失败：上个版本不存在！')
