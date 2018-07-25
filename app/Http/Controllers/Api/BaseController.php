@@ -16,21 +16,25 @@ use Dingo\Api\Routing\Helpers;
  *         description="
  *         ## 公共响应码
  *         200 ok: 服务器成功返回用户请求的数据;
- *         401 Unauthorized：表示用户没有权限（令牌、用户名、密码错误）
- *         403 Forbidden: 表示用户得到授权，但是访问是被禁止的
+ *         401 Unauthorized：表示用户没有权限（token无效或已过期）
+ *         404 Not Found: 请求地址不存在
  *         429 Too Many Requests：请勿频繁请求
- *         500 INTERNAL SERVER ERROR：服务器发生错误
- *         ...
- *
- *         ## 公共参数组成一个json字符串，放到 header 里，字段为：X-Device-Info
- *         ## 公共参数如下： "
+ *         500 INTERNAL SERVER ERROR：服务器发生错误"
  *     ),
  *     consumes={"application/json"},
  *     produces={"application/json"},
- *     @SWG\Response(
+ *     @SWG\SecurityScheme(
+ *        securityDefinition="need_login",
+ *        type="apiKey",
+ *        in="header",
+ *        name="Authorization",
+ *        description="登录接口",
+ *    ),
+ *    @SWG\Response(
  *         response="Success",
  *         description="操作成功"
  *     ),
+ *     @SWG\Tag(name="auth", description="身份认证"),
  *     @SWG\Tag(name="user", description="用户"),
  *     @SWG\Tag(name="wear", description="搭配"),
  *     @SWG\Tag(name="clothing", description="单品"),

@@ -21,6 +21,7 @@ $api->version('v1', function ($api) {
 
     $api->group(['middleware' => ['auth:api']], function ($api) {
         $api->get('users/{id}', 'App\Http\Controllers\Api\UserController@show');
+        $api->post('clothing', 'App\Http\Controllers\Api\ClothingController@store');
     });
 });
 

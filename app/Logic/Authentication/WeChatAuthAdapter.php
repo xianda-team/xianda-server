@@ -1,6 +1,6 @@
 <?php namespace App\Logic\Authentication;
 
-use App\User;
+use App\Models\Users\User;
 use Tymon\JWTAuth\Contracts\Providers\Auth;
 
 /**
@@ -17,9 +17,7 @@ class WeChatAuthAdapter implements Auth
 
     public function byId($id)
     {
-        $user = new User();
-        $user->id = 1;
-        return $user;
+        return User::find($id);
     }
 
     public function user()
