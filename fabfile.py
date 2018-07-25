@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+# 安装： pip install 'fabric<2.0'
 # 部署： fab deploy
 # 回滚:  fab rollback
 
@@ -78,6 +79,7 @@ def deploy():
   upload()
   reload_server()
   clear()
+  print('deploy done！')
 
 # 回滚代码
 def rollback():
