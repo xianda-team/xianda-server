@@ -84,7 +84,7 @@ def deploy():
 # 回滚代码
 def rollback():
  remote_prev = run('ls -t %s/ | head  -2 | tail -n 1' % remote_dist_dir)
-  if len(remote_prev) > 0:
+ if len(remote_prev) > 0:
     run('rm -f %s' % remote_dist_link)
     run('ln -s %s/%s %s' % (remote_prev, remote_dist_dir, remote_dist_link))
     run('chown -R www-data:www-data %s' % remote_dist_link)
