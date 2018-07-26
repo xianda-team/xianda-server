@@ -45,6 +45,8 @@ def upload():
         run('tar -xzvf %s' % remote_tmp_tar)
   # 设定新目录的www-data权限:
   run('chown -R www-data:www-data %s' % remote_dist_dir_tag)
+  # 删除旧的软链接：
+  run('rm -f %s' % remote_dist_link)
   # 创建新的软链接指向新部署的目录：
   run('ln -s %s %s' % (remote_dist_dir_tag, remote_dist_link))
   run('chown -R www-data:www-data %s' % remote_dist_link)
@@ -83,6 +85,7 @@ def deploy():
 def rollback():
  remote_prev = run('ls -t %s/ | head  -2 | tail -n 1' % remote_dist_dir)
  if len(remote_prev) > 0:
+    run('rm -f %s' % remote_dist_link)
     run('ln -s %s/%s %s' % (remote_prev, remote_dist_dir, remote_dist_link))
     run('chown -R www-data:www-data %s' % remote_dist_link)
     print('rollback done')
