@@ -10,6 +10,11 @@ namespace App\Models\Wear;
 
 use App\Models\Users\BaseModel;
 
+/**
+ * App\Models\Wear\WearClothing
+ *
+ * @mixin \Eloquent
+ */
 class WearClothing extends BaseModel
 {
     protected $table = 'wear_clothing';

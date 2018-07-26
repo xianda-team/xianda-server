@@ -6,6 +6,25 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
+/**
+ * App\Models\Users\User
+ *
+ * @property int $id
+ * @property string|null $wx_openid
+ * @property string $mobile
+ * @property string|null $email
+ * @property string|null $password
+ * @property string $nickname
+ * @property string $register_ip
+ * @property string $register_city
+ * @property string|null $last_login_time
+ * @property string|null $last_login_ip
+ * @property string|null $last_login_city
+ * @property string $gender
+ * @property string|null $avatar
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ */
 class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;

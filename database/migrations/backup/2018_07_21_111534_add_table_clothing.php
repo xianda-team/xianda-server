@@ -15,7 +15,7 @@ class AddTableClothing extends Migration
     {
         Schema::create('clothing', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('category_id');
+            $table->unsignedInteger('category_id')->nullable();
             $table->unsignedInteger('user_id');
             $table->text('images')->nullable();
             $table->text('tags')->nullable();

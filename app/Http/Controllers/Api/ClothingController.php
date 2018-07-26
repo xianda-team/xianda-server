@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 
+use App\Models\Wear\Clothing;
+
 class ClothingController extends BaseController
 {
 
@@ -99,7 +101,12 @@ class ClothingController extends BaseController
      */
     public function store()
     {
-        return \Auth::user();
+        $clothing = new Clothing();
+        $clothing->images = request()->input('images');
+        $clothing->user_id = \Auth::id();
+        $clothing->saveOrError();
+
+        return ['id' => $clothing->id];
     }
 
 
