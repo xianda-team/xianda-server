@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 
+use App\Http\Transformers\ClothingTransformer;
 use App\Models\Wear\Clothing;
+use Illuminate\Support\Facades\Input;
 
 class ClothingController extends BaseController
 {
@@ -73,7 +75,19 @@ class ClothingController extends BaseController
      */
     public function index()
     {
+        $pageSize = request()->input('page_size', 30);
+        $keywords = request()->input('keywords');
+        $categoryId = request()->input('category_id');
+        $query = Clothing::query();
+        if ($keywords) {
+            $query->where('tags', 'like', "%$keywords%");
+        }
+        if ($categoryId) {
+            $query->where('category_id', $categoryId);
+        }
+        $results = $query->paginate($pageSize);
 
+        return $this->response->paginator($results, new ClothingTransformer());
     }
 
     /**

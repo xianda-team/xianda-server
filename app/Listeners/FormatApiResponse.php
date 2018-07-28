@@ -12,12 +12,19 @@ class FormatApiResponse
     public function handle(ResponseWasMorphed $event)
     {
         if (!isset($event->content['exception'])) {
-            $event->response->setContent([
+            $content = [
                 'code' => 200,
                 'message' => 'success',
                 'errors' => [],
-                'data' => $event->content
-            ]);
+            ];
+            if (isset($event->content['data'])) {
+                $content = array_merge($content, $event->content);
+            } else {
+                $content['data'] = $event->content;
+            }
+
+            $event->response->setContent($content);
+
         } else {
             $event->response->setContent([
                 'code' => $event->content['code'] ?? $event->content['status_code'],

@@ -41,6 +41,9 @@ return [
     |
     | Asymmetric Algorithms:
     | RS256, RS384 & RS512 / ES256, ES384 & ES512 will use the keys below.
+    | 如果你在 .env 文件中定义了 JWT_SECRET 的随机字符串
+    | 那么 jwt 将会使用 对称算法 来生成 token
+    | 如果你没有定有，那么jwt 将会使用如下配置的公钥和私钥来生成 token
     |
     */
 
@@ -98,6 +101,7 @@ return [
     | This is not particularly recommended, so make sure you have appropriate
     | systems in place to revoke the token if necessary.
     |
+    | 指定 access_token 有效的时间长度（以分钟为单位），默认为1小时，您也可以将其设置为空，以产生永不过期的标记
     */
 
     'ttl' => env('JWT_TTL', 60),
@@ -116,6 +120,10 @@ return [
     | Some may want this instead of never expiring tokens for e.g. a mobile app.
     | This is not particularly recommended, so make sure you have appropriate
     | systems in place to revoke the token if necessary.
+    |
+    | 指定 access_token 可刷新的时间长度（以分钟为单位）。默认的时间为 2 周。
+    | 大概意思就是如果用户有一个 access_token，那么他可以带着他的 access_token
+    | 过来领取新的 access_token，直到 2 周的时间后，他便无法继续刷新了，需要重新登录。
     |
     */
 
