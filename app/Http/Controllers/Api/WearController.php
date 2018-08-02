@@ -138,7 +138,7 @@ class WearController extends BaseController
      *     tags={"wear"},
      *     path="/wear/{id}",
      *     description="删除搭配",
-     *     summary="删除单品",
+     *     summary="删除搭配",
      *     security={{"need_login": {}}},
      *     @SWG\Parameter(ref="$/parameters/id", description="搭配id"),
      *     @SWG\Response(
