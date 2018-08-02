@@ -8,7 +8,7 @@
 
 namespace App\Models\Wear;
 
-use App\Models\Users\BaseModel;
+use App\Models\BaseModel;
 
 /**
  * App\Models\Wear\WearClothing

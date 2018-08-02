@@ -1,6 +1,6 @@
 <?php namespace App\Logic\Authentication;
 
-use App\Models\Users\User;
+use App\Models\User;
 use Tymon\JWTAuth\Contracts\Providers\Auth;
 
 /**

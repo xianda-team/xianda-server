@@ -6,7 +6,7 @@
  * Time: 下午7:10
  */
 
-namespace App\Models\Users;
+namespace App\Models;
 
 
 class Weather
