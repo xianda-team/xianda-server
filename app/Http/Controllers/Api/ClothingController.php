@@ -107,7 +107,7 @@ class ClothingController extends BaseController
      *    summary="获取单品详情",
      *    description="获取单品详情",
      *    security={{"need_login": {}}},
-     *    @SWG\Parameter(ref="#/parameters/id"),
+     *    @SWG\Parameter(ref="$/parameters/id", description="单品id"),
      *    @SWG\Response(
      *        response=200,
      *        description="操作成功",
@@ -140,7 +140,7 @@ class ClothingController extends BaseController
      *     summary="更新单品信息",
      *     description="更新单品信息",
      *     security={{"need_login": {}}},
-     *     @SWG\Parameter(ref="#/parameters/id"),
+     *     @SWG\Parameter(ref="$/parameters/id", description="单品id"),
      *     @SWG\Parameter(
      *         name="body",
      *         in="body",
@@ -166,7 +166,7 @@ class ClothingController extends BaseController
      *     description="删除单品",
      *     summary="删除单品",
      *     security={{"need_login": {}}},
-     *     @SWG\Parameter(ref="#/parameters/id"),
+     *     @SWG\Parameter(ref="$/parameters/id", description="单品id"),
      *     @SWG\Response(
      *         response=200,
      *         ref="#/responses/Success"
@@ -178,12 +178,64 @@ class ClothingController extends BaseController
 
     }
 
+    /**
+     * @SWG\Post(
+     *     tags={"clothing"},
+     *     path="/clothing-wear/{id}",
+     *     summary="单品加入搭配",
+     *     description="单品加入搭配",
+     *     security={{"need_login": {}}},
+     *     @SWG\Parameter(ref="$/parameters/id", description="单品id"),
+     *     @SWG\Parameter(
+     *         name="body",
+     *         in="body",
+     *         description="表单数据",
+     *         required=true,
+     *         @SWG\Schema(
+     *             type="object",
+     *             @SWG\Property(
+     *               property="wear_ids",
+     *               type="array",
+     *               @SWG\Items(
+     *                   type="integer", example="wear_id"
+     *               )
+     *            ),
+     *         )
+     *     ),
+     *     @SWG\Response(
+     *         response=200,
+     *         ref="#/responses/Success"
+     *    )
+     * )
+     */
     public function addToWear($id)
     {
 
     }
 
-    public function removeFromWear($id)
+
+    /**
+     * @SWG\Delete(
+     *     tags={"clothing"},
+     *     path="/clothing-wear/{id}/{wearId}",
+     *     summary="从搭配中移除单品",
+     *     description="从搭配中移除单品",
+     *     security={{"need_login": {}}},
+     *     @SWG\Parameter(ref="$/parameters/id", description="单品id"),
+     *     @SWG\Parameter(
+     *         name="wearId",
+     *         type="integer",
+     *         description="搭配id",
+     *         in="path",
+     *         required=true,
+     *     ),
+     *     @SWG\Response(
+     *         response=200,
+     *         ref="#/responses/Success"
+     *    )
+     * )
+     */
+    public function removeFromWear($id, $wearId)
     {
 
     }

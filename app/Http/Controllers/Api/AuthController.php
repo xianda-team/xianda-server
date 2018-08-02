@@ -31,10 +31,14 @@ class AuthController extends BaseController
      *        description="操作成功",
      *        @SWG\Schema(
      *            type="object",
-     *            @SWG\Property(property="token", type="integer",example="token"),
-     *            @SWG\Property(property="expire_time", type="string",example="token有效时间，分钟"),
-     *            @SWG\Property(property="expire_at", type="string",example="token过期时间"),
-     *        )
+     *            ref="$/definitions/success",
+     *             @SWG\Property(
+     *                 property="data",
+     *                 @SWG\Property(property="token", type="integer",example="token"),
+     *                 @SWG\Property(property="expire_time", type="string",example="token有效时间，分钟"),
+     *                 @SWG\Property(property="expire_at", type="string",example="token过期时间"),
+     *             ),
+     *         )
      *    )
      * )
      */

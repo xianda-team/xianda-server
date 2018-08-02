@@ -3,11 +3,14 @@
 use App\Models\Wear\Wear;
 use League\Fractal\TransformerAbstract;
 
+
+
 /**
  * @SWG\Definition(
- *     definition="Wear",
- *     @SWG\Property(property="id", type="integer",example="搭配id"),
+ *     definition="NewWear",
+ *     required={"images","temperature_id"},
  *     @SWG\Property(property="images", type="string",example="搭配图片"),
+ *     @SWG\Property(property="temperature_id", type="string",example="适宜气温id"),
  *     @SWG\Property(
  *         property="tags",
  *         type="array",
@@ -16,6 +19,18 @@ use League\Fractal\TransformerAbstract;
  *         )
  *      ),
  * )
+ *
+ *  @SWG\Definition(
+ *   definition="Wear",
+ *   type="object",
+ *   allOf={
+ *      @SWG\Schema(
+ *           @SWG\Property(property="id", type="integer",example="搭配id"),
+ *       ),
+ *       @SWG\Schema(ref="#/definitions/NewWear")
+ *   }
+ * )
+ *
  */
 class WearTransformer extends TransformerAbstract
 {
