@@ -78,10 +78,7 @@ class ClothingController extends BaseController
      *         in="body",
      *         description="表单数据",
      *         required=true,
-     *         @SWG\Schema(
-     *             type="object",
-     *             @SWG\Property(property="images",type="string", example="图片:必填"),
-     *         )
+     *         @SWG\Schema(ref="#/definitions/NewClothing")
      *     ),
      *     @SWG\Response(
      *         response=200,

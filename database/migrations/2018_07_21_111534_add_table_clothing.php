@@ -21,6 +21,7 @@ class AddTableClothing extends Migration
             $table->text('tags')->nullable();
             $table->softDeletes();
             $table->timestamps();
+            $table->index(['user_id', 'category_id']);
         });
     }
 

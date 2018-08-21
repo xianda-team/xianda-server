@@ -13,7 +13,16 @@ class AddTableWears extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('wears', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('weather_id')->nullable();
+            $table->unsignedInteger('user_id');
+            $table->text('images')->nullable();
+            $table->text('tags')->nullable();
+            $table->softDeletes();
+            $table->timestamps();
+            $table->index(['user_id', 'weather_id']);
+        });
     }
 
     /**
@@ -23,6 +32,6 @@ class AddTableWears extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('wears');
     }
 }

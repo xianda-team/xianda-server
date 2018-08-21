@@ -28,6 +28,9 @@ class AddTableUsers extends Migration
             $table->enum('gender', ['男', '女', '保密'])->default('保密');
             $table->text('avatar')->nullable();
             $table->timestamps();
+            $table->index('wx_openid');
+            $table->index('mobile');
+            $table->index('nickname');
         });
     }
 
