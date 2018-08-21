@@ -1,6 +1,7 @@
 <?php namespace App\Models\Wear;
 
 use App\Models\BaseModel;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 
 /**
@@ -18,6 +19,14 @@ use App\Models\BaseModel;
  */
 class Clothing extends BaseModel
 {
+    use SoftDeletes;
+
     protected $table = 'clothing';
+    protected $description = '单品';
+
+    public function getTagsAttribute($value)
+    {
+        return array_filter(explode(',', $value));
+    }
 
 }

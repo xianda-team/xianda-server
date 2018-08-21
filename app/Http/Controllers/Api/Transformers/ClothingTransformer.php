@@ -38,7 +38,7 @@ class ClothingTransformer extends TransformerAbstract
         return [
             'id' => $clothing->id,
             'images' => $clothing->images,
-            'tags' => [],
+            'tags' => $clothing->tags,
             'category_id' => $clothing->category_id,
         ];
     }

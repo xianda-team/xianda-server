@@ -2,15 +2,12 @@
 
 namespace App\Exceptions\Model;
 
-use App\Exceptions\AppException;
-
 /**
- *
- *  model save 异常
- * @author: wanglei3@dankegongyu.com
- * @date: 18/7/26
+ * model 保存失败
+ * Class SaveException
+ * @package App\Exceptions\Model
  */
-class SaveException extends AppException
+class SaveException extends ModelException
 {
 
 }
