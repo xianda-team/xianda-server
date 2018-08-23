@@ -15,13 +15,13 @@ class AddTableWears extends Migration
     {
         Schema::create('wears', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('weather_id')->nullable();
+            $table->unsignedInteger('temperature_id')->nullable();
             $table->unsignedInteger('user_id');
             $table->text('images')->nullable();
             $table->text('tags')->nullable();
             $table->softDeletes();
             $table->timestamps();
-            $table->index(['user_id', 'weather_id']);
+            $table->index(['user_id', 'temperature_id']);
         });
     }
 

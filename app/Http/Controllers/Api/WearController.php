@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Api\Transformers\WearTransformer;
+use App\Models\Temperature;
+use App\Models\Wear\Wear;
+use App\Models\Wear\WearClothing;
 
 class WearController extends BaseController
 {
@@ -41,7 +45,22 @@ class WearController extends BaseController
      */
     public function index()
     {
-        return [];
+        $this->rule([
+            'page_size' => 'numeric|max:200',
+            'page' => 'numeric',
+            'keywords' => 'max:50',
+        ]);
+
+        $pageSize = $this->getQuery('page_size', 20);
+        $keywords = $this->getQuery('keywords');
+
+        $query = Wear::query();
+        if ($keywords) {
+            $query->where('tags', 'like', "%$keywords%");
+        }
+        $results = $query->paginate($pageSize);
+
+        return $this->response->paginator($results, new WearTransformer());
     }
 
 
@@ -65,8 +84,12 @@ class WearController extends BaseController
      *                 ref="$/definitions/Wear",
      *                 @SWG\Property(
      *                    property="clothing",
-     *                    type="array",
-     *                    @SWG\Items(ref="#/definitions/Clothing")
+     *                    type="object",
+     *                    @SWG\Property(
+     *                        property="data",
+     *                        type="array",
+     *                        @SWG\Items(ref="#/definitions/Clothing")
+     *                   )
      *                )
      *            )
      *        )
@@ -75,7 +98,9 @@ class WearController extends BaseController
      */
     public function show($id)
     {
+        $wear = $this->findWear($id);
 
+        return $this->response->item($wear, (new WearTransformer())->setDefaultIncludes(['clothing']));
     }
 
     /**
@@ -100,8 +125,25 @@ class WearController extends BaseController
      */
     public function store()
     {
+        $this->rule([
+            'images' => 'required',
+            'temperature_id' => 'required|in:' . Temperature::ids()->implode(','),
+            'tags' => 'array',
+        ]);
 
-        return ['id' => 1];
+        $images = $this->getData('images');
+        $temperatureId = $this->getData('temperature_id');
+        $tag = $this->getData('tags', []);
+
+        $wear = new Wear();
+        $wear->images = $images;
+        $wear->temperature_id = $temperatureId;
+        $wear->user_id = \Auth::id();
+        $wear->tags = implode(',', $tag);
+
+        $wear->saveOrError();
+
+        return ['id' => $wear->id];
     }
 
     /**
@@ -127,7 +169,25 @@ class WearController extends BaseController
      */
     public function update($id)
     {
+        $this->rule([
+            'temperature_id' => 'required|in:' . Temperature::ids()->implode(','),
+            'tags' => 'array',
+        ]);
 
+        $wear = $this->findWear($id);
+
+        $images = $this->getData('images');
+        $temperatureId = $this->getData('temperature_id');
+        $tags = $this->getData('tags', []);
+
+        if ($images) {
+            $wear->images = $images;
+        }
+        $wear->temperature_id = $temperatureId;
+        $wear->tags = implode(',', $tags);
+        $wear->saveOrError();
+
+        return [];
     }
 
     /**
@@ -146,9 +206,11 @@ class WearController extends BaseController
      */
     public function delete($id)
     {
+        $wear = $this->findWear($id);
 
-        //删除搭配与单品关联
-        //删除搭配
+        $wear->delete();
+
+        return [];
     }
 
     /**
@@ -183,6 +245,17 @@ class WearController extends BaseController
      */
     public function addClothing($id)
     {
+        $this->rule([
+            'clothing_ids' => 'required|array'
+        ]);
+        $wear = $this->findWear($id);
+        $clothingIds = $this->getData('clothing_ids', []);
+        WearClothing::batchClothingToWear($wear->id, $clothingIds);
+        return [];
+    }
 
+    protected function findWear($id): Wear
+    {
+        return Wear::where('user_id', \Auth::id())->where('id', $id)->firstOrError();
     }
 }

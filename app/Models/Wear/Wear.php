@@ -1,5 +1,6 @@
 <?php namespace App\Models\Wear;
 
+use App\Exceptions\Model\DeleteException;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -9,8 +10,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @mixin \Eloquent
  * @property int $id
- * @property int $weather_id
- * @property int $user_id
+ * @property int $temperature_id       气温id
+ * @property int $user_id              用户id
  * @property string|null $images
  * @property string|null $tags
  * @property string|null $deleted_at
@@ -24,4 +25,34 @@ class Wear extends BaseModel
     protected $table = 'wears';
     protected $description = '搭配';
 
+    public function getTagsAttribute($value)
+    {
+        return array_filter(explode(',', $value));
+    }
+
+    public function clothing()
+    {
+        return $this->belongsToMany(Clothing::class, 'wear_clothing');
+    }
+
+    public function delete()
+    {
+        \DB::beginTransaction();
+
+        try {
+            // 删除搭配与单品关联
+            WearClothing::where('user_id', \Auth::id())
+                ->where('wear_id', $this->id)
+                ->each(function (WearClothing $wearClothing) {
+                    $wearClothing->delete();
+                });
+            parent::delete();
+        } catch (\Exception $exception) {
+            \DB::rollBack();
+            throw new DeleteException();
+        }
+
+        \DB::commit();
+        return true;
+    }
 }

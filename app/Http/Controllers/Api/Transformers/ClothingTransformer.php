@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers\Api\Transformers;
 
 use App\Models\Wear\Clothing;
+use App\Models\Wear\Wear;
 use League\Fractal\TransformerAbstract;
 
 
@@ -41,5 +42,12 @@ class ClothingTransformer extends TransformerAbstract
             'tags' => $clothing->tags,
             'category_id' => $clothing->category_id,
         ];
+    }
+
+    public function includeWear(Clothing $clothing)
+    {
+        $wear = $clothing->wear;
+
+        return $this->collection($wear, new WearTransformer());
     }
 }

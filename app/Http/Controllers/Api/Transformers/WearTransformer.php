@@ -4,7 +4,6 @@ use App\Models\Wear\Wear;
 use League\Fractal\TransformerAbstract;
 
 
-
 /**
  * @SWG\Definition(
  *     definition="NewWear",
@@ -20,7 +19,7 @@ use League\Fractal\TransformerAbstract;
  *      ),
  * )
  *
- *  @SWG\Definition(
+ * @SWG\Definition(
  *   definition="Wear",
  *   type="object",
  *   allOf={
@@ -35,12 +34,20 @@ use League\Fractal\TransformerAbstract;
 class WearTransformer extends TransformerAbstract
 {
 
-    public function transform(Wear $clothing)
+    public function transform(Wear $wear)
     {
         return [
-            'id' => $clothing->id,
-            'images' => $clothing->images,
-            'tags' => [],
+            'id' => $wear->id,
+            'images' => $wear->images,
+            'tags' => $wear->tags,
+            'temperature_id' => $wear->temperature_id
         ];
+    }
+
+    public function includeClothing(Wear $wear)
+    {
+        $clothing = $wear->clothing;
+
+        return $this->collection($clothing, new ClothingTransformer());
     }
 }

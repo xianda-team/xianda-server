@@ -55,7 +55,8 @@ class ClothingController extends BaseController
     public function index()
     {
         $this->rule([
-            'page_size' => 'numeric|max:100',
+            'page_size' => 'numeric|max:200',
+            'page' => 'numeric',
             'keywords' => 'max:50',
             'category_id' => 'in:' . ClothingCategory::ids()->implode(','),
         ]);
@@ -136,8 +137,12 @@ class ClothingController extends BaseController
      *                 ref="$/definitions/Clothing",
      *                 @SWG\Property(
      *                    property="wears",
-     *                    type="array",
-     *                    @SWG\Items(ref="#/definitions/Wear")
+     *                    type="object",
+     *                    @SWG\Property(
+     *                        property="data",
+     *                        type="array",
+     *                        @SWG\Items(ref="#/definitions/Wear")
+     *                    ),
      *                )
      *            )
      *        )
@@ -148,7 +153,7 @@ class ClothingController extends BaseController
     {
         $clothing = $this->findClothing($id);
 
-        return $this->response->item($clothing, new ClothingTransformer());
+        return $this->response->item($clothing, (new ClothingTransformer())->setDefaultIncludes(['wear']));
     }
 
     /**
@@ -175,16 +180,20 @@ class ClothingController extends BaseController
     public function update($id)
     {
         $this->rule([
-            'images' => 'required',
             'category_id' => 'required|in:' . ClothingCategory::ids()->implode(','),
             'tags' => 'array',
         ]);
 
+        $images = $this->getData('images');
+        $categoryId = $this->getData('category_id');
+        $tags = $this->getData('tags', []);
+
         $clothing = $this->findClothing($id);
-        $clothing->images = $this->getData('images');
-        $clothing->category_id = $this->getData('category_id');
-        $clothing->tags = implode(',', $this->getData('tags', []));
-        $clothing->user_id = \Auth::id();
+        if ($images) {
+            $clothing->images = $images;
+        }
+        $clothing->category_id = $categoryId;
+        $clothing->tags = implode(',', $tags);
 
         $clothing->saveOrError();
 
@@ -207,6 +216,7 @@ class ClothingController extends BaseController
      */
     public function delete($id)
     {
+
         $clothing = $this->findClothing($id);
 
         $clothing->delete();
@@ -217,17 +227,26 @@ class ClothingController extends BaseController
     /**
      * @SWG\Post(
      *     tags={"clothing"},
-     *     path="/clothing-wear/{id}/{wearId}",
+     *     path="/clothing-wear/{id}",
      *     summary="单品加入搭配",
      *     description="单品加入搭配",
      *     security={{"need_login": {}}},
      *     @SWG\Parameter(ref="$/parameters/id", description="单品id"),
      *     @SWG\Parameter(
-     *         name="wearId",
-     *         type="integer",
-     *         description="搭配id",
-     *         in="path",
+     *         name="body",
+     *         in="body",
+     *         description="表单数据",
      *         required=true,
+     *         @SWG\Schema(
+     *             type="object",
+     *             @SWG\Property(
+     *               property="wear_ids",
+     *               type="array",
+     *               @SWG\Items(
+     *                   type="integer", example="wear_id"
+     *               )
+     *            ),
+     *         )
      *     ),
      *     @SWG\Response(
      *         response=200,
@@ -235,16 +254,14 @@ class ClothingController extends BaseController
      *    )
      * )
      */
-    public function addToWear($id, $wearId)
+    public function addToWear($id)
     {
+        $this->rule([
+            'wear_ids' => 'required|array'
+        ]);
         $clothing = $this->findClothing($id);
-        $wear = Wear::where('user_id', \Auth::id())->where('id', $wearId)->firstOrError();
-
-        $wearClothing = new WearClothing();
-        $wearClothing->user_id = \Auth::id();
-        $wearClothing->wear_id = $wear->id;
-        $wearClothing->clothing_id = $clothing->id;
-        $wearClothing->saveOrError();
+        $wearIds = $this->getData('wear_ids');
+        WearClothing::batchWearToClothing($clothing->id, $wearIds);
 
         return [];
     }

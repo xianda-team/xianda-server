@@ -27,10 +27,14 @@ $api->version('v1', function ($api) {
         $api->delete('clothing/{id}', 'App\Http\Controllers\Api\ClothingController@delete');
         $api->get('clothing', 'App\Http\Controllers\Api\ClothingController@index');
         $api->get('clothing/{id}', 'App\Http\Controllers\Api\ClothingController@show');
-        $api->post('clothing-wear/{id}/{wearId}', 'App\Http\Controllers\Api\ClothingController@addToWear');
+        $api->post('clothing-wear/{id}', 'App\Http\Controllers\Api\ClothingController@addToWear');
         $api->delete('clothing-wear/{id}/{wearId}}', 'App\Http\Controllers\Api\ClothingController@removeFromWear');
 
-
+        $api->post('wear', 'App\Http\Controllers\Api\WearController@store');
+        $api->put('wear/{id}', 'App\Http\Controllers\Api\WearController@update');
+        $api->delete('wear/{id}', 'App\Http\Controllers\Api\WearController@delete');
+        $api->get('wear', 'App\Http\Controllers\Api\WearController@index');
+        $api->get('wear/{id}', 'App\Http\Controllers\Api\WearController@show');
     });
 });
 
