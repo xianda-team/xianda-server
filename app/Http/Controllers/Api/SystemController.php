@@ -53,7 +53,7 @@ class SystemController extends BaseController
     {
         return [
             'clothing_category' => $this->formatList(ClothingCategory::list()),
-            'Temperature' => $this->formatList(Temperature::list()),
+            'temperature' => $this->formatList(Temperature::list()),
         ];
     }
 
