@@ -58,7 +58,7 @@ class AuthController extends BaseController
             if (!$token) {
                 throw UnauthorizedException::instance('获取token失败');
             }
-            $expireTime = config('jwt.refresh_ttl');
+            $expireTime = config('jwt.ttl');
 
             return response([
                 'token' => $token,
