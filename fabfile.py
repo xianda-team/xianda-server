@@ -34,11 +34,11 @@ def pack():
 def upload():
   # 远程服务器的临时文件：
   remote_tmp_tar = '/tmp/pack.tar.gz'
-  tag = datetime.now().strftime('%y.%m.%d_%H.%M.%S')
   run('rm -f %s' % remote_tmp_tar)
   # 上传tar文件至远程服务器：
   put('pack.tar.gz', remote_tmp_tar)
   # 解压：
+  tag = datetime.now().strftime('%y.%m.%d_%H.%M.%S')
   remote_dist_dir_tag = '%s/www.xianda.com@%s' % (remote_dist_dir,tag)
   run('mkdir -p %s' % remote_dist_dir_tag)
   with cd(remote_dist_dir_tag):
