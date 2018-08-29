@@ -15,9 +15,9 @@ use Illuminate\Http\Request;
 
 $api = app('Dingo\Api\Routing\Router');
 
-
 $api->version('v1', function ($api) {
     $api->get('auth/wechat/access-token', 'App\Http\Controllers\Api\AuthController@weChatAccessToken');
+    $api->get('system/config', 'App\Http\Controllers\Api\SystemController@config');
 
     $api->group(['middleware' => ['auth:api']], function ($api) {
         $api->get('users/{id}', 'App\Http\Controllers\Api\UserController@show');
@@ -35,7 +35,6 @@ $api->version('v1', function ($api) {
         $api->delete('wear/{id}', 'App\Http\Controllers\Api\WearController@delete');
         $api->get('wear', 'App\Http\Controllers\Api\WearController@index');
         $api->get('wear/{id}', 'App\Http\Controllers\Api\WearController@show');
-
 
         $api->get('file/token/{bucket}', 'App\Http\Controllers\Api\FileController@getUploadFileToken');
     });
