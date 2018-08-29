@@ -36,7 +36,7 @@ class SystemController extends BaseController
      *                    )
      *                 ),
      *                 @SWG\Property(
-     *                    property="Temperature",
+     *                    property="temperature",
      *                    type="array",
      *                    @SWG\Items(
      *                      type="object",
