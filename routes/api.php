@@ -35,6 +35,9 @@ $api->version('v1', function ($api) {
         $api->delete('wear/{id}', 'App\Http\Controllers\Api\WearController@delete');
         $api->get('wear', 'App\Http\Controllers\Api\WearController@index');
         $api->get('wear/{id}', 'App\Http\Controllers\Api\WearController@show');
+
+
+        $api->get('file/token/{bucket}', 'App\Http\Controllers\Api\FileController@getUploadFileToken');
     });
 });
 

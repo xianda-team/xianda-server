@@ -28,6 +28,7 @@
  *     @SWG\Tag(name="wear", description="搭配"),
  *     @SWG\Tag(name="clothing", description="单品"),
  *     @SWG\Tag(name="system", description="系统"),
+ *     @SWG\Tag(name="file", description="文件"),
  * )
  */
 
