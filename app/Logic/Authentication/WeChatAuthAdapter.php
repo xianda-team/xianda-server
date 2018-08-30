@@ -2,6 +2,7 @@
 
 use App\Models\User;
 use Tymon\JWTAuth\Contracts\Providers\Auth;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 /**
  * 微信登录授权认证
@@ -10,20 +11,37 @@ use Tymon\JWTAuth\Contracts\Providers\Auth;
  */
 class WeChatAuthAdapter implements Auth
 {
+    protected $user;
+
     public function byCredentials(array $credentials = [])
     {
+        $code = $credentials['code'] ?? '';
+        $miniProgram = \EasyWeChat::miniProgram();
+        $result = $miniProgram->auth->session($code);
+        if (!$result) {
+            throw new JWTException('获取openid失败, 微信没有响应');
+        }
+        $openId = $result['openid'] ?? null;
+        if (!$openId) {
+            throw new JWTException('获取openid失败, ' . $result['errmsg'] ?? 0);
+        }
+
+        $user = User::where('wx_openid', $openId)->first();
+        if (!$user) {
+            throw new JWTException('用户未注册！');
+        }
+        $this->user = $user;
         return true;
     }
 
     public function byId($id)
     {
-        return User::find($id);
+        $this->user = User::find($id);
+        return $this->user;
     }
 
     public function user()
     {
-        $user = new User();
-        $user->id = 1;
-        return $user;
+        return $this->user;
     }
 }

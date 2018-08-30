@@ -42,9 +42,13 @@ class AuthController extends BaseController
      *    )
      * )
      */
-    public function weChatAccessToken(Request $request)
+    public function weChatAccessToken()
     {
-        $credentials = $request->only('email', 'password');
+        $this->rule([
+            'code' => 'required'
+        ]);
+
+        $credentials = ['code' => $this->query['code']];
         $authAdapter = new WeChatAuthAdapter();
 
         return $this->returnToken($authAdapter, $credentials);
