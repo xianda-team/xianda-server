@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Input;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Zhuzhichao\IpLocationZh\Ip;
 
 /**
  * App\Models\Users\User
@@ -28,6 +31,10 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
+
+    const GENDER_男 = '男';
+    const GENDER_女 = '女';
+    const GENDER_保密 = '保密';
 
     /**
      * The attributes that are mass assignable.
@@ -57,5 +64,21 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public static function newUserFromMobileAndOpenId($mobile, $openId)
+    {
+        $user = new User();
+        $user->mobile = $mobile;
+        $user->wx_openid = $openId;
+        $user->nickname = $mobile;
+        $user->gender = self::GENDER_女;
+        $user->register_ip = \Request::getClientIp();
+        $user->register_city = Ip::find(\Request::getClientIp())[2] ?? '未知';
+        $user->last_login_time = Carbon::now();
+        $user->last_login_ip = \Request::getClientIp();
+        $user->last_login_city = Ip::find(\Request::getClientIp())[2] ?? '未知';
+
+        return $user;
     }
 }

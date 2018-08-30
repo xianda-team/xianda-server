@@ -13,7 +13,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        \Validator::extend('mobile', function ($attribute, $value, $parameters) {
+            return preg_match("/^1[34578]{1}\d{9}$/", $value);
+        });
     }
 
     /**
