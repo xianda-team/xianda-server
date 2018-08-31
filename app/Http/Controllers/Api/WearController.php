@@ -54,7 +54,7 @@ class WearController extends BaseController
         $pageSize = $this->getQuery('page_size', 20);
         $keywords = $this->getQuery('keywords');
 
-        $query = Wear::query();
+        $query = Wear::query()->where('user_id', \Auth::id());
         if ($keywords) {
             $query->where('tags', 'like', "%$keywords%");
         }

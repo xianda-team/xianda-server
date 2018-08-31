@@ -127,6 +127,7 @@ class AuthController extends BaseController
             $user->avatar = $avatar;
             $user->nickname = $nickname;
         }
+        $user->saveOrError();
 
         return $this->responseToken(\Auth::tokenById($user->id));
     }

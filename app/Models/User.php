@@ -3,11 +3,10 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Support\Facades\Input;
+use Illuminate\Auth\Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Zhuzhichao\IpLocationZh\Ip;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 
 /**
  * App\Models\Users\User
@@ -28,9 +27,9 @@ use Zhuzhichao\IpLocationZh\Ip;
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  */
-class User extends Authenticatable implements JWTSubject
+class User extends BaseModel implements JWTSubject, AuthenticatableContract
 {
-    use Notifiable;
+    use Authenticatable;
 
     const GENDER_男 = '男';
     const GENDER_女 = '女';

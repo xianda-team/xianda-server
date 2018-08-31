@@ -65,7 +65,7 @@ class ClothingController extends BaseController
         $keywords = $this->getQuery('keywords');
         $categoryId = $this->getQuery('category_id');
 
-        $query = Clothing::query();
+        $query = Clothing::query()->where('user_id', \Auth::id());
         if ($keywords) {
             $query->where('tags', 'like', "%$keywords%");
         }
