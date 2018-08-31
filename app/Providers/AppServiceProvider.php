@@ -15,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
     {
         \Validator::extend('mobile', function ($attribute, $value, $parameters) {
             return preg_match("/^1[34578]{1}\d{9}$/", $value);
-        });
+        }, '无效的手机号');
     }
 
     /**
