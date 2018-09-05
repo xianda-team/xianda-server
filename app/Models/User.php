@@ -46,6 +46,14 @@ class User extends BaseModel implements JWTSubject, AuthenticatableContract
     ];
 
 
+    protected function bootIfNotBooted()
+    {
+        self::creating(function (self $user) {
+            $user->mobile = '';
+        });
+        parent::bootIfNotBooted();
+    }
+
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
