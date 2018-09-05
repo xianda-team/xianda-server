@@ -12,7 +12,8 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
  * App\Models\Users\User
  *
  * @property int $id
- * @property string|null $wx_openid
+ * @property string|null $wx_openid    小程序openid
+ * @property string|null $wx_unionid
  * @property string $mobile
  * @property string|null $email
  * @property string|null $password
@@ -65,18 +66,19 @@ class User extends BaseModel implements JWTSubject, AuthenticatableContract
         return [];
     }
 
-    public static function newUserFromMobileAndOpenId($mobile, $openId)
+    public static function newUserFromWxId($openId, $unionId)
     {
         $user = new User();
-        $user->mobile = $mobile;
         $user->wx_openid = $openId;
-        $user->nickname = $mobile;
+        $user->wx_unionid = $unionId;
+        $user->nickname = '用户';
         $user->gender = self::GENDER_女;
         $user->register_ip = \Request::getClientIp();
         $user->register_city = Ip::find(\Request::getClientIp())[2] ?? '未知';
         $user->last_login_time = Carbon::now();
         $user->last_login_ip = \Request::getClientIp();
         $user->last_login_city = Ip::find(\Request::getClientIp())[2] ?? '未知';
+        $user->saveOrError();
 
         return $user;
     }

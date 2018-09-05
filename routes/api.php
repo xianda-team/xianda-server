@@ -17,7 +17,6 @@ $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1', function ($api) {
     $api->get('auth/wechat/access-token', 'App\Http\Controllers\Api\AuthController@weChatAccessToken');
-    $api->post('auth/wechat/register', 'App\Http\Controllers\Api\AuthController@weChatRegister');
     $api->get('system/config', 'App\Http\Controllers\Api\SystemController@config');
 
     $api->group(['middleware' => ['auth:api']], function ($api) {

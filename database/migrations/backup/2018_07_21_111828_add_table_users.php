@@ -16,6 +16,7 @@ class AddTableUsers extends Migration
         Schema:: create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('wx_openid', 50)->nullable();
+            $table->string('wx_unionid', 50)->nullable();
             $table->string('mobile', 11);
             $table->string('email', 50)->nullable();
             $table->string('password', 50)->nullable();
@@ -29,6 +30,7 @@ class AddTableUsers extends Migration
             $table->text('avatar')->nullable();
             $table->timestamps();
             $table->index('wx_openid');
+            $table->index('wx_unionid');
             $table->index('mobile');
             $table->index('nickname');
         });

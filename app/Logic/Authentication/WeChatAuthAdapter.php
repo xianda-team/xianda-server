@@ -22,13 +22,19 @@ class WeChatAuthAdapter implements Auth
             throw new JWTException('获取openid失败, 微信没有响应');
         }
         $openId = $result['openid'] ?? null;
+        $unionid = $result['unionid'] ?? null;
+
         if (!$openId) {
             throw new JWTException('获取openid失败, ' . $result['errmsg'] ?? 0);
         }
 
-        $user = User::where('wx_openid', $openId)->first();
+        if (!$unionid) {
+            throw new JWTException('获取unionid失败');
+        }
+
+        $user = User::where('wx_openid', $openId)->where('unionid', $unionid)->first();
         if (!$user) {
-            throw new JWTException('用户未注册！');
+            $user = User::newUserFromWxId($openId, $unionid);
         }
         $this->user = $user;
         return true;
