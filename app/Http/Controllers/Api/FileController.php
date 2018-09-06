@@ -50,6 +50,7 @@ class FileController extends BaseController
         }
 
         $bucket = self::$buckets[$bucket];
+        $bucket = config('services.qiniu.' . $bucket);
         $auth = new Auth(config('services.qiniu.ak'), config('services.qiniu.sk'));
         $token = $auth->uploadToken($bucket);
 
