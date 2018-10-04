@@ -65,6 +65,7 @@ def reload_server():
    run('ln -sfn %s/env_init/nginx.conf /etc/nginx/nginx.conf' % remote_dist_link)
    run('ln -sfn %s/env_init/www.conf /etc/php/7.1/fpm/pool.d/www.conf' % remote_dist_link)
    run('ln -sfn %s/env_init/vhost.conf /etc/nginx/sites-enabled' % remote_dist_link)
+   run('ln -sfn %s/env_init/vhost-https.conf /etc/nginx/sites-enabled' % remote_dist_link)
    run('ln -sfn %s/env_init/php_env.ini /etc/php/7.1/mods-available/php_env.ini' % remote_dist_link)
 
    run('service php7.1-fpm restart')
