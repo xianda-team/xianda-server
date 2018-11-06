@@ -28,13 +28,14 @@ $api->version('v1', function ($api) {
         $api->get('clothing', 'App\Http\Controllers\Api\ClothingController@index');
         $api->get('clothing/{id}', 'App\Http\Controllers\Api\ClothingController@show');
         $api->post('clothing-wear/{id}', 'App\Http\Controllers\Api\ClothingController@addToWear');
-        $api->delete('clothing-wear/{id}/{wearId}}', 'App\Http\Controllers\Api\ClothingController@removeFromWear');
+        $api->delete('clothing-wear/{id}/{wearId}', 'App\Http\Controllers\Api\ClothingController@removeFromWear');
 
         $api->post('wear', 'App\Http\Controllers\Api\WearController@store');
         $api->put('wear/{id}', 'App\Http\Controllers\Api\WearController@update');
         $api->delete('wear/{id}', 'App\Http\Controllers\Api\WearController@delete');
         $api->get('wear', 'App\Http\Controllers\Api\WearController@index');
         $api->get('wear/{id}', 'App\Http\Controllers\Api\WearController@show');
+        $api->post('wear-clothing/{id}', 'App\Http\Controllers\Api\WearController@addClothing');
 
         $api->get('file/token/{bucket}', 'App\Http\Controllers\Api\FileController@getUploadFileToken');
     });
