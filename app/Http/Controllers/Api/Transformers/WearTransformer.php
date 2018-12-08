@@ -9,6 +9,8 @@ use League\Fractal\TransformerAbstract;
  *     definition="NewWear",
  *     required={"images","temperature_id"},
  *     @SWG\Property(property="images", type="string",example="搭配图片"),
+ *     @SWG\Property(property="image_with", type="string",example="图片宽度"),
+ *     @SWG\Property(property="image_height", type="string",example="图片高度"),
  *     @SWG\Property(property="temperature_id", type="string",example="适宜气温id"),
  *     @SWG\Property(
  *         property="tags",
@@ -39,6 +41,8 @@ class WearTransformer extends TransformerAbstract
         return [
             'id' => $wear->id,
             'images' => $wear->images,
+            'image_with' => $wear->image_with,
+            'image_height' => $wear->image_height,
             'tags' => $wear->tags,
             'temperature_id' => $wear->temperature_id
         ];
