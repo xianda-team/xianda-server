@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int $user_id
  * @property string|null $images
  * @property string|null $tags
- * @property string|null $image_with
+ * @property string|null $image_width
  * @property string|null $image_height
  * @property string|null $deleted_at
  * @property \Carbon\Carbon|null $created_at
@@ -33,7 +33,7 @@ class Clothing extends BaseModel
         self::saving(function (self $clothing) {
             if ($clothing->isDirty('images')) {
                 list($width, $height) = getimagesize($clothing->images);
-                $clothing->image_with = $width;
+                $clothing->image_width = $width;
                 $clothing->image_height = $height;
             }
         });

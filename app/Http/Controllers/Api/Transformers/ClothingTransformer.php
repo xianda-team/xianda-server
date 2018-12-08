@@ -10,7 +10,7 @@ use League\Fractal\TransformerAbstract;
  *     definition="NewClothing",
  *     required={"images","category_id"},
  *     @SWG\Property(property="images", type="string",example="图片"),
- *     @SWG\Property(property="image_with", type="string",example="图片宽度"),
+ *     @SWG\Property(property="image_width", type="string",example="图片宽度"),
  *     @SWG\Property(property="image_height", type="string",example="图片高度"),
  *     @SWG\Property(
  *         property="tags",
@@ -41,7 +41,7 @@ class ClothingTransformer extends TransformerAbstract
         return [
             'id' => $clothing->id,
             'images' => $clothing->images,
-            'image_with' => $clothing->image_with,
+            'image_width' => $clothing->image_width,
             'image_height' => $clothing->image_height,
             'tags' => $clothing->tags,
             'category_id' => $clothing->category_id,
